@@ -60,7 +60,7 @@ public abstract class Lutador {
             }
         }
         this.defesa = true;
-        System.out.println(this.nome + " está se defendendo!");
+        System.out.println(this.nome + " está se defendendo!\n ");
     };
 
     public void mostrarStatus() {
@@ -75,6 +75,10 @@ public abstract class Lutador {
     }
 
     public boolean estarVivo() {
-        return this.vivo;
-        }
+            if (this.vida == 0) {
+                return this.vivo = false;
+            } else {
+                return this.vivo = true;
+            }
+    }
 }

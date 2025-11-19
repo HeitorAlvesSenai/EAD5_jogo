@@ -6,8 +6,10 @@ public class Main {
         String nome;
         int quantidade;
         int opcao = 0;
+        int lutadoresVivos;
         boolean run = true;
 
+        Lutador alvo;
         Lutador[] lutadores;
         Scanner sc = new Scanner(System.in);
 
@@ -67,7 +69,98 @@ public class Main {
                 System.out.println((i + 1) + ". " + lutadores[i].nome + " (Velocidade: " + lutadores[i].getVelocidade() + ")");
             }
 
-            
+            while (run) {
+                for (Lutador atacante: lutadores) {
+                    if (atacante.estarVivo() == true) {
+                        System.out.println(atacante.nome + ", o que você quer fazer?");
+                        System.out.println("1- Atacar | 2- Defender | 3- Usar especial");
+
+                        opcao = sc.nextInt();
+                        while (run) {
+                            
+                            if (opcao >= 1 && opcao <= 3) {
+
+                                // ATAQUE NORMAL
+                                if (opcao == 1) {
+                                    System.out.println("Quem você quer atacar?");
+                                    for (int i = 0; i < quantidade; i++) {
+                                        if (atacante != lutadores[i] && lutadores[i].estarVivo()) {
+                                            System.out.println("\n" +
+                                                (i + 1) + "- " +lutadores[i].nome +
+                                                "(Vida: " + lutadores[i].vida +
+                                                " | Energia " + lutadores[i].energia +
+                                                " | Defesa " + (lutadores[i].defesa? "Ativada": "Desativada"));
+                                            }
+                                    }
+                                    
+                                    while (run) {
+                                        opcao = sc.nextInt();
+                                        if (opcao > 0 && opcao <= quantidade) {
+                                            for (int i = 0; i < quantidade; i++) {
+                                                if ((opcao - 1) == i) {
+                                                    if (atacante == lutadores[i]) {
+                                                        System.out.println("Você não pode se bater! Escolha outra pessoa.");
+                                                    } else if (atacante != lutadores[i] && lutadores[i].estarVivo() == true) {
+                                                        atacante.atacar(lutadores[i]);
+                                                        run = false;
+                                                    } else {
+                                                        System.out.println("Esse lutador está morto...\nEscolha outra pessoa.");
+                                                        run = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    run = true;
+                                
+                                // DEFESA
+                                } else if (opcao == 2) {
+                                    atacante.defender();
+
+                                // ESPECIAL
+                                } else if (opcao == 3) {
+                                    System.out.println("Quem você quer usar o especial?");
+                                    for (int i = 0; i < quantidade; i++) {
+                                        if (atacante != lutadores[i] && lutadores[i].estarVivo()) {
+                                            System.out.println("\n" +
+                                                (i + 1) + "- " +lutadores[i].nome +
+                                                "(Vida: " + lutadores[i].vida +
+                                                " | Energia " + lutadores[i].energia +
+                                                " | Defesa " + (lutadores[i].defesa? "Ativada": "Desativada"));
+                                            }
+                                    }
+                                    
+                                    while (run) {
+                                        opcao = sc.nextInt();
+                                        if (opcao > 0 && opcao <= quantidade) {
+                                            for (int i = 0; i < quantidade; i++) {
+                                                if ((opcao - 1) == i) {
+                                                    if (atacante == lutadores[i]) {
+                                                        System.out.println("Você não pode se bater! Escolha outra pessoa.");
+                                                    } else if (atacante != lutadores[i] && lutadores[i].estarVivo() == true) {
+                                                        atacante.especial(lutadores[i]);
+                                                        run = false;
+                                                    } else {
+                                                        System.out.println("Esse lutador está morto...\nEscolha outra pessoa.");
+                                                        run = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    run = true;
+                                }
+                                run = false;
+                            } else {
+                                System.out.println("Escolha 1 ou 2!");
+                                opcao = sc.nextInt();
+                            }
+                        }
+                        run = true;
+                    }
+                }
+            }
+
         } while (run);
 
         sc.close();
