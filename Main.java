@@ -6,10 +6,10 @@ public class Main {
         String nome;
         int quantidade;
         int opcao = 0;
+        int lutadoresMortos;
         int lutadoresVivos;
         boolean run = true;
 
-        Lutador alvo;
         Lutador[] lutadores;
         Scanner sc = new Scanner(System.in);
 
@@ -64,15 +64,19 @@ public class Main {
             System.out.println(" --- Iniciando Confronto e Ordenando Turnos ---");
             Arrays.sort(lutadores, new ComparadorVelocidade());
 
-            System.out.println("Ordem de ataque do mais rapido ao mais lento: ");
+            System.out.println("A ordem de ataque é do mais rapido para o mais lento: ");
             for (int i = 0; i < quantidade; i++) {
-                System.out.println((i + 1) + ". " + lutadores[i].nome + " (Velocidade: " + lutadores[i].getVelocidade() + ")");
+                System.out.println((i + 1) + "º. " + lutadores[i].nome + " (Velocidade: " + lutadores[i].getVelocidade() + ")\n");
+                System.out.println("-------------------------------------------------------------------------");
             }
+
+            lutadoresVivos = quantidade;
+            lutadoresMortos = 0;
 
             while (run) {
                 for (Lutador atacante: lutadores) {
                     if (atacante.estarVivo() == true) {
-                        System.out.println(atacante.nome + ", o que você quer fazer?");
+                        System.out.println("\n" + atacante.nome + ", o que você quer fazer?");
                         System.out.println("1- Atacar | 2- Defender | 3- Usar especial");
 
                         opcao = sc.nextInt();
@@ -119,7 +123,7 @@ public class Main {
 
                                 // ESPECIAL
                                 } else if (opcao == 3) {
-                                    System.out.println("Quem você quer usar o especial?");
+                                    System.out.println("Quem você quer atacar?");
                                     for (int i = 0; i < quantidade; i++) {
                                         if (atacante != lutadores[i] && lutadores[i].estarVivo()) {
                                             System.out.println("\n" +
@@ -157,9 +161,26 @@ public class Main {
                             }
                         }
                         run = true;
+                    } else {
+                        lutadoresMortos = 0;
+                        for (Lutador morto: lutadores) {
+                            if (morto.estarVivo() == false) {
+                                 lutadoresMortos += 1;
+                            } 
+                        }
+                    }
+                    if ((lutadoresVivos - lutadoresMortos) == 1) {
+                        for (Lutador vencedor : lutadores) {
+                            if (vencedor.estarVivo() == true) {
+                                System.out.println("\n===O vencedor é " + vencedor.nome + "!!!===\n Fim.\nComeçando outra partida...\n ");
+                            }
+                        }
+                        run = false;
+                        break;
                     }
                 }
             }
+            run = true;
 
         } while (run);
 

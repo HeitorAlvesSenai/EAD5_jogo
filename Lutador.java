@@ -28,26 +28,26 @@ public abstract class Lutador {
         }
         oponente.mostrarStatus();
         oponente.defesa = false;
-        System.out.println(this.nome + " Usou um ataque normal em " + oponente.nome + "!");
+        System.out.println(this.nome + " usou um ataque normal em " + oponente.nome + "!");
     }
 
     public void especial(Lutador oponente) {
         if (this.energia == 0) {
             System.out.println("Sem energia para aplicar o especial!");
             return;
-        }
-        else if (oponente.defesa) {
-            oponente.vida -= ((forca * 2) - 6);
-            this.energia -= 40;
+        } else if (oponente.defesa) {
+            oponente.vida -= (forca * 2) -6;
+            this.energia -= 45;
         } else {
-            oponente.vida -= (forca * 2);
-            this.energia -= 40;
+            oponente.vida -= forca * 2;
+            this.energia -=40;
         }
         if (this.energia < 0) {
             this.energia = 0;
         }
+        oponente.mostrarStatus();
         oponente.defesa = false;
-        System.out.println(this.nome + " usou um ataque especial em " + oponente.nome + "!");
+        System.out.println(this.nome + " usou um especial em " + oponente.nome + "!");
     }
 
     public void defender() {
