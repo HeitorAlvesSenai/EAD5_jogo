@@ -4,10 +4,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         String nome;
-        int quantidade;
+        int quantidade = 0;
         int opcao = 0;
         int lutadoresMortos;
         int lutadoresVivos;
+        boolean valido = false;
         boolean run = true;
 
         Lutador[] lutadores;
@@ -17,15 +18,24 @@ public class Main {
 
         do {
             System.out.println("=== Jogo de Luta ===");
-            System.out.println("Insira quantos jogadores irão participar (Mínimo 2): ");
-            quantidade = sc.nextInt();
-            sc.nextLine();
-
-            if (quantidade < 2) {
-                System.out.println("Mínimo de 2 jogadores. Insira outro valor!");
-                continue;
+            valido = false;
+            while (!valido) {
+                try {
+                    System.out.println("Insira quantos jogadores irão participar (Mínimo 2): ");
+                    quantidade = sc.nextInt();
+                    sc.nextLine();
+                        valido = true;
+                    if (quantidade >= 2) {
+                        
+                    } else {
+                        System.out.println("Mínimo de 2 jogadores. Insira outro valor!");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Você deve apenas colocar números inteiros.");
+                    sc.nextLine();
+                }
             }
-            
+
             lutadores = new Lutador[quantidade];
 
             for (int i = 0; i < quantidade; i++) {
@@ -42,6 +52,7 @@ public class Main {
                     if (sc.hasNextInt()) {
                         opcao = sc.nextInt();
                         sc.nextLine(); 
+                            
 
                         if (opcao == 1) {
                             lutadores[i] = new LutadorLeve(nome);
@@ -66,7 +77,7 @@ public class Main {
 
             System.out.println("A ordem de ataque é do mais rapido para o mais lento: ");
             for (int i = 0; i < quantidade; i++) {
-                System.out.println((i + 1) + "º. " + lutadores[i].nome + " (Velocidade: " + lutadores[i].getVelocidade() + ")\n");
+                System.out.println((i + 1) + "º. " + lutadores[i].nome + " (Velocidade: " + lutadores[i].getVelocidade() + ")");
                 System.out.println("-------------------------------------------------------------------------");
             }
 
@@ -77,9 +88,25 @@ public class Main {
                 for (Lutador atacante: lutadores) {
                     if (atacante.estarVivo() == true) {
                         System.out.println("\n" + atacante.nome + ", o que você quer fazer?");
-                        System.out.println("1- Atacar | 2- Defender | 3- Usar especial");
+                        
+                        valido = false;
+                        while (!valido) {
+                            try {
+                                System.out.println("1- Atacar | 2- Defender | 3- Usar especial");
 
-                        opcao = sc.nextInt();
+                                opcao = sc.nextInt();
+                                if (opcao >= 1 && opcao <= 3) {
+                                    valido = true;
+                                } else {
+                                    System.out.println("Escolha de 1 até 3!");
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Você deve apenas colocar números inteiros.");
+                                sc.nextLine();
+                            }
+                        }
+                        valido = false;
+
                         while (run) {
                             
                             if (opcao >= 1 && opcao <= 3) {
@@ -98,7 +125,18 @@ public class Main {
                                     }
                                     
                                     while (run) {
-                                        opcao = sc.nextInt();
+                                        
+                                        valido = false;
+                                        while(!valido) {
+                                            try {
+                                                opcao = sc.nextInt();
+                                                valido = true;
+                                            } catch (Exception e) {
+                                                System.out.println("Escolha com números inteiros!");
+                                                sc.nextLine();
+                                            }
+                                        }
+
                                         if (opcao > 0 && opcao <= quantidade) {
                                             for (int i = 0; i < quantidade; i++) {
                                                 if ((opcao - 1) == i) {
@@ -135,7 +173,18 @@ public class Main {
                                     }
                                     
                                     while (run) {
-                                        opcao = sc.nextInt();
+
+                                        valido = false;
+                                        while(!valido) {
+                                            try {
+                                                opcao = sc.nextInt();
+                                                valido = true;
+                                            } catch (Exception e) {
+                                                System.out.println("Escolha com números inteiros!");
+                                                sc.nextLine();
+                                            }
+                                        }
+
                                         if (opcao > 0 && opcao <= quantidade) {
                                             for (int i = 0; i < quantidade; i++) {
                                                 if ((opcao - 1) == i) {
@@ -156,8 +205,17 @@ public class Main {
                                 }
                                 run = false;
                             } else {
-                                System.out.println("Escolha 1 ou 2!");
-                                opcao = sc.nextInt();
+
+                                valido = false;
+                                while (!valido) {
+                                    try {
+                                        System.out.println("Escolha de 1 até 3!");
+                                        opcao = sc.nextInt();
+                                        valido = true;
+                                    } catch (Exception e) {
+                                        System.out.println("Escolha com números inteiros!");
+                                    }
+                                }
                             }
                         }
                         run = true;
